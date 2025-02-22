@@ -37,6 +37,6 @@ export const updatePatient = async (req, res) => {
       const updatedPatient = await patientService.updatePatient(id, updatedPatientData);
       successResponse(res, 200, 'Patient updated successfully', updatedPatient);
     } catch (error) {
-        errorResponse(res, 400, 'Failed to update patient', error.message);
+      errorResponse(res, 400, 'Failed to update patient', error.message);
     }
   };

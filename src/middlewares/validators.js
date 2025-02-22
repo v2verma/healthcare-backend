@@ -1,7 +1,7 @@
 import { body, validationResult, check } from "express-validator";
 
 
-export const RegisterVallidationrules = () => {
+export const registerValidationRules = () => {
     return [
         check('firstName', "First name is required").not().isEmpty(),
         check('lastName', "Last name is required").not().isEmpty(),
@@ -19,11 +19,14 @@ export const RegisterVallidationrules = () => {
 
 }
 
-export const LoginVallidationrules = () => {
+export const loginValidationRules = () => {
     return [
         check('email', "please enter valid email").isEmail(),
         check('password', "passowrd is required").isLength({ min: 6 }),
     ]
+}
+
+export const getPatientValidationRules = () => {
 
 }
 

@@ -1,23 +1,18 @@
 import express from 'express'
 import { getUsers, login, register } from '../modules/auth/auth.controller.js';
-import {  RegisterVallidationrules, validate,LoginVallidationrules } from '../middlewares/validators.js';
+import { registerValidationRules, validate, loginValidationRules } from '../middlewares/validators.js';
 import auth from '../middlewares/authorization.js';
 
 const authRouter = express.Router()
 
 authRouter.post('/login',
-    LoginVallidationrules(),
+    loginValidationRules(),
     validate,
      login)
-     
 authRouter.post('/register',
-    RegisterVallidationrules(),
+    registerValidationRules(),
     validate,
     register)
 authRouter.get('/users',auth, getUsers)
 
-
-
-export default authRouter
-
-
+export default authRouter;
