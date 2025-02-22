@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken"
 import { JWT_SECRETE } from "../config/config.service.js";
 
 
-const auth =(req,res,next)=>{
+const authenticate =(req,res,next)=>{
     const token = req.header("x-auth-token")
 
     if(!token){
@@ -18,4 +18,4 @@ const auth =(req,res,next)=>{
     }
 }
 
-export default auth
+export default authenticate;
