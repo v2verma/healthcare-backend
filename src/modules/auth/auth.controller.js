@@ -11,7 +11,7 @@ export const login = async (req, res) => {
     console.log(user, "user");
 
     const isPasswordMaching = await bcrypt.compare(password, user.password)
-    console.log(isPasswordMaching)
+    console.log(isPasswordMaching,"userCheck")
 
     const payload = {
         user: user.id

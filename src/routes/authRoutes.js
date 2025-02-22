@@ -9,6 +9,7 @@ authRouter.post('/login',
     LoginVallidationrules(),
     validate,
      login)
+     
 authRouter.post('/register',
     RegisterVallidationrules(),
     validate,
