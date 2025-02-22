@@ -3,10 +3,11 @@ import Patient  from "../../models/Patient.js"
 export const createPatientService = async (patientData) => {
     try {
         // Ensure that the user_id exists in the User collection
-        //   if (!user) {
-        //     return res.status(404).json({ error: 'User not found' });
-        //   }
-  
+        const user = await UserActivation.findById(patientData.user);
+          if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+          }
+
       const newPatient = new Patient(patientData);
       await newPatient.save();
     } catch (err) {
