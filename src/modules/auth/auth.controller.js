@@ -53,7 +53,7 @@ export const register = async (req, res) => {
         //check is user Already Exist
         const isUserExist = await User.findOne({ email: email })
         if (isUserExist) {
-            res.json({ message: "user  Already Exist " })
+            return res.json({ message: "user  Already Exist " })
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -69,6 +69,7 @@ export const register = async (req, res) => {
     }
     catch (error) {
         errorResponse(res, 400, 'Failed to create user', error.message);
+        throw error;
     }
 }
 
