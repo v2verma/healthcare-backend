@@ -11,6 +11,10 @@ const authenticate =(req,res,next)=>{
     try{
         
     const decodedauth = jwt.decode(token,JWT_SECRETE);
+
+    if (decodedauth && !decodedauth.user) {
+        res.status(401).json({error:"Auth token is incorrect. Please provide a Valid Token"})
+    }
     req.user = decodedauth.user;
     next();
     }catch(error){
