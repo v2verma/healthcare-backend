@@ -2,7 +2,7 @@ import { JWT_SECRETE } from "../../config/config.service.js";
 import User from "../../models/User.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { getUsersData } from "./user.service.js";
+import { getUsersData } from "./auth.service.js";
 
 
 export const login = async (req, res) => {
