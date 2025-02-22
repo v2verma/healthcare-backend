@@ -1,15 +1,17 @@
 import Patient  from "../../models/Patient.js"
+import User  from "../../models/User.js"
 
 export const createPatientService = async (patientData) => {
     try {
         // Ensure that the user_id exists in the User collection
-        const user = await UserActivation.findById(patientData.user);
+        const user = await User.findById(patientData.user);
           if (!user) {
             return res.status(404).json({ error: 'User not found' });
           }
 
       const newPatient = new Patient(patientData);
       await newPatient.save();
+      return newPatient;
     } catch (err) {
         throw new Error('Error creating patient: ' + err.message);
     }
