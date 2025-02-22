@@ -3,23 +3,31 @@ import User from "../../models/User.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { getUsersData } from "./auth.service.js";
-
+import {successResponse, errorResponse} from '../../utils/construct-response.js';
 
 export const login = async (req, res) => {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email: email });
-    console.log(user, "user");
-
-    const isPasswordMaching = await bcrypt.compare(password, user.password)
-    console.log(isPasswordMaching)
-
-    const payload = {
-        user: user.id
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            throw new Error("User not found");
+        }
+        console.log(user, "user");
+    
+        const isPasswordMaching = await bcrypt.compare(password, user.password)
+        console.log(isPasswordMaching,"userCheck")
+    
+        const payload = {
+            user: user.id
+        }
+        isPasswordMaching && jwt.sign(payload, JWT_SECRETE, { expiresIn: 3600 * 24 }, (error, token) => {
+            if (error) throw error;
+            res.json({ token })
+        })
+    } catch (error) {
+        errorResponse(res, 400, 'Failed to login. Please check credentials', error.message);
     }
-    isPasswordMaching && jwt.sign(payload, JWT_SECRETE, { expiresIn: 3600 * 24 }, (error, token) => {
-        if (error) throw error;
-        res.json({ token })
-    })
+    
 }
 
 export const register = async (req, res) => {
@@ -45,7 +53,7 @@ export const register = async (req, res) => {
         //check is user Already Exist
         const isUserExist = await User.findOne({ email: email })
         if (isUserExist) {
-            res.json({ message: "user  Already Exist " })
+            return res.json({ message: "user  Already Exist " })
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -60,7 +68,8 @@ export const register = async (req, res) => {
         })
     }
     catch (error) {
-        console.log(error)
+        errorResponse(res, 400, 'Failed to create user', error.message);
+        throw error;
     }
 }
 

@@ -2,8 +2,8 @@ import jwt from "jsonwebtoken"
 import { JWT_SECRETE } from "../config/config.service.js";
 
 
-const auth =(req,res,next)=>{
-    const token = req.header("x-auth-token")
+const authenticate =(req,res,next)=>{
+    const token = req.header("x-auth-token") || req.headers['authorization'];
 
     if(!token){
         res.status(401).json({error:"invalid auth"})
@@ -11,6 +11,10 @@ const auth =(req,res,next)=>{
     try{
         
     const decodedauth = jwt.decode(token,JWT_SECRETE);
+
+    if (decodedauth && !decodedauth.user) {
+        res.status(401).json({error:"Auth token is incorrect. Please provide a Valid Token"})
+    }
     req.user = decodedauth.user;
     next();
     }catch(error){
@@ -18,4 +22,4 @@ const auth =(req,res,next)=>{
     }
 }
 
-export default auth
+export default authenticate;
