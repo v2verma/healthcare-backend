@@ -1,4 +1,4 @@
-import {createPatientService, getAllPatientsService, getPatientByIdService, updatePatientService} from './patient.service.js';
+import {createPatientService, getAllPatientsService, getPatientByIdService, updatePatientService, getAllActivitiesForPatientService, createActivityService} from './patient.service.js';
 import {successResponse, errorResponse} from '../../utils/construct-response.js';
 
 export const createPatient = async (req, res) => {
@@ -41,3 +41,24 @@ export const updatePatient = async (req, res) => {
       errorResponse(res, 400, 'Failed to update patient', error.message);
     }
   };
+
+  export const getAllActivitiesByPatientId = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const activities = await getAllActivitiesForPatientService(id);
+      successResponse(res, 200, 'Activities lists', activities);
+    } catch (error) {
+      errorResponse(res, 400, 'Failed to fetch activities', error.message);
+    }
+  };
+
+  export const createActivityForPatient = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const activityData = req.body;
+      const newActivity = await createActivityService(activityData, id);
+      successResponse(res, 201, 'activity created successfully', newActivity);
+    } catch (error) {
+        errorResponse(res, 400, 'Failed to create activity', error.message);
+    }
+};

@@ -1,5 +1,6 @@
 import Patient  from "../../models/Patient.js"
 import User  from "../../models/User.js"
+import Activity  from "../../models/Activity.js"
 
 export const createPatientService = async (patientData) => {
     try {
@@ -46,3 +47,28 @@ export const updatePatientService = async (id, patientData) => {
       throw new Error('Error updating patient: ' + err.message);
     }
   };
+
+  export const createActivityService = async (activityData, patientId) => {
+    try {
+        // Ensure that the patient_id exists in the User collection
+        const patient = await Patient.findById(patientId);
+          if (!patient) {
+            return res.status(404).json({ error: 'Patient not found' });
+          }
+      activityData.patient_id = patientId;
+      const newActivity = new Activity(activityData);
+      await newActivity.save();
+      return newActivity;
+    } catch (err) {
+        throw new Error('Error creating activity: ' + err.message);
+    }
+  };
+
+  export const getAllActivitiesForPatientService = async (patientId)=>{
+    try {
+        const activities = await Activity.find({'patient_id': patientId});
+        return activities;
+      } catch (err) {
+        throw new Error('Error fetching activities: ' + err.message);
+      }
+}
