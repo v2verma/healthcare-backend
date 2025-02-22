@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const Types = Schema.Types;
 
-
 // Define the Activity Schema
 const activitySchema = new Schema({
   patient_id: { 
@@ -33,16 +32,10 @@ const activitySchema = new Schema({
   notes: { 
     type: String,  // Additional notes (optional)
     default: ''
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
+  }
 }, { timestamps: true });  // Automatically adds createdAt and updatedAt fields
 
 // Export the Activity model
-export default mongoose.model('Activity', activitySchema);
+const Activity =  mongoose.model('Activity', activitySchema);
+
+export default Activity;

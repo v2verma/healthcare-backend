@@ -55,22 +55,8 @@ const userSchema = new Schema({
   zipCode: {
     type: String,
     required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
-
-// Middleware to update the `updatedAt` field before saving the document
-userSchema.pre('save', function (next) {
-  this.updatedAt = Date.now();
-  next();
-});
+  }
+}, { timestamps: true }); // Automatically adds createdAt and updatedAt fields
 
 // Create model
 const User = mongoose.model('User', userSchema);

@@ -53,16 +53,8 @@ const patientSchema = new Schema({
   },
   blood_group: {
     type: String,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  }
+}, { timestamps: true });
 
 // Middleware to update `updatedAt` before saving
 patientSchema.pre('save', function (next) {
