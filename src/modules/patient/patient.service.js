@@ -1,6 +1,6 @@
-import Patient  from "../../models/Patient"
+import Patient  from "../../models/Patient.js"
 
-export const createPatient = async (patientData) => {
+export const createPatientService = async (patientData) => {
     try {
         // Ensure that the user_id exists in the User collection
         //   if (!user) {
@@ -14,18 +14,18 @@ export const createPatient = async (patientData) => {
     }
   };
 
-export const getAllPatients = async ()=>{
+export const getAllPatientsService = async ()=>{
     try {
-        const patients = await Patient.find().populate('user');
+        const patients = await Patient.find().populate('user', 'name email');
         return patients;
       } catch (err) {
         throw new Error('Error fetching patients: ' + err.message);
       }
 }
 
-export const getPatientById = async (id) => {
+export const getPatientByIdService = async (id) => {
     try {
-      const patient = await Patient.findById(id).populate('user');
+      const patient = await Patient.findById(id).populate('user', 'name email');
       if (!patient) {
         throw new Error('Patient not found');
       }
@@ -35,22 +35,11 @@ export const getPatientById = async (id) => {
     }
   };
 
-export const updatePatient = async (id, patientData) => {
+export const updatePatientService = async (id, patientData) => {
     try {
       const updatedPatient = await Patient.findByIdAndUpdate(id, patientData, { new: true });
       return updatedPatient;
     } catch (err) {
       throw new Error('Error updating patient: ' + err.message);
-    }
-  };
-
-// Service to create a new patient
-const createPatient = async (patientData) => {
-    try {
-      const newPatient = new Patient(patientData);
-      await newPatient.save();
-      return newPatient;
-    } catch (err) {
-      throw new Error('Error creating patient: ' + err.message);
     }
   };

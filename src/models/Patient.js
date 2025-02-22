@@ -51,7 +51,7 @@ const patientSchema = new Schema({
     ref: 'User',  // Reference to the User model
     required: true
   },
-  blood_group: {
+  bloodGroup: {
     type: String,
   }
 }, { timestamps: true });
